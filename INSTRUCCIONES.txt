@@ -1,0 +1,24 @@
+
+INSTRUCCIONES
+
+1. Sube ambos archivos al mismo directorio:
+   - registro_actuaciones_android.html
+   - manifest.json
+
+2. Renombra el HTML a:
+   index.html
+
+3. Añade tus iconos:
+   - icono-192.png
+   - icono-512.png
+
+4. Publica en:
+   - GitHub Pages
+   - Netlify
+   - Hosting HTTPS
+
+5. En Android:
+   - abrir en Chrome
+   - pulsar el icono menú superior
+   - instalar aplicación
+
