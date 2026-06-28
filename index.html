@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Tareas de Iker</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4c1d95">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root{
+    --morado:#a855f7;
+    --cian:#22d3ee;
+    --bg:#0d0b1f;
+    --bg2:#15122e;
+    --card:#1c1838;
+    --card2:#231d44;
+    --txt:#ede9ff;
+    --muted:#8b85b5;
+    --ok:#22d3ee;
+    --line:#2e2856;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(168,85,247,.25), transparent),
+      radial-gradient(900px 450px at -10% 10%, rgba(34,211,238,.18), transparent),
+      var(--bg);
+    color:var(--txt);padding:0 0 90px;min-height:100vh;
+  }
+  header{
+    background:linear-gradient(120deg, #2a1458 0%, #4c1d95 55%, #0e7490 100%);
+    color:#fff;padding:18px 16px 15px;
+    position:sticky;top:0;z-index:20;
+    box-shadow:0 4px 24px rgba(168,85,247,.35);
+    border-bottom:1px solid rgba(34,211,238,.4);
+  }
+  .title{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:23px;font-weight:900;letter-spacing:.5px;
+    text-shadow:0 0 14px rgba(34,211,238,.6);
+  }
+  .install-btn{
+    font-size:13px;font-weight:800;letter-spacing:.3px;color:#0d0b1f;cursor:pointer;
+    background:linear-gradient(135deg,#22d3ee,#a855f7);border:none;border-radius:10px;
+    padding:8px 12px;box-shadow:0 0 14px rgba(34,211,238,.6);white-space:nowrap;
+  }
+  .install-btn:active{transform:scale(.96);}
+  .title .pb{
+    width:24px;height:24px;border-radius:50%;flex:none;
+    background:linear-gradient(180deg,#ff3b5c 0 48%,#fff 48% 52%,#f3f3f3 52% 100%);
+    border:2.5px solid #14101f;position:relative;box-shadow:0 0 12px rgba(255,59,92,.7);
+  }
+  .title .pb::after{
+    content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;border-radius:50%;
+    background:#fff;border:2px solid #14101f;transform:translate(-50%,-50%);
+  }
+  .periodo{display:flex;gap:8px;margin-top:14px;}
+  .periodo select{
+    flex:1;padding:11px;border:1px solid rgba(34,211,238,.45);border-radius:12px;font-size:15px;font-weight:700;
+    background:rgba(13,11,31,.55);color:var(--cian);appearance:none;
+  }
+  .wrap{padding:14px;}
+  .resumen{display:flex;gap:10px;margin-bottom:14px;}
+  .stat{
+    flex:1;background:var(--card);border-radius:16px;padding:13px;text-align:center;
+    border:1px solid var(--line);box-shadow:0 0 18px rgba(168,85,247,.12);
+  }
+  .stat .n{font-size:23px;font-weight:900;color:var(--cian);text-shadow:0 0 12px rgba(34,211,238,.5);}
+  .stat.rosa .n{color:var(--morado);text-shadow:0 0 12px rgba(168,85,247,.6);}
+  .stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px;}
+  .semana{
+    background:var(--card);border-radius:18px;margin-bottom:14px;overflow:hidden;
+    border:1px solid var(--line);box-shadow:0 6px 22px rgba(0,0,0,.4);
+  }
+  .semana h2{
+    margin:0;padding:12px 14px;font-size:15px;font-weight:800;color:#fff;
+    display:flex;justify-content:space-between;align-items:center;letter-spacing:.5px;
+  }
+  .semana:nth-child(odd) h2{background:linear-gradient(90deg,#6d28d9,#a855f7);}
+  .semana:nth-child(even) h2{background:linear-gradient(90deg,#0e7490,#22d3ee);}
+  .semana h2 .tot{font-size:14px;font-weight:800;background:rgba(0,0,0,.3);padding:3px 11px;border-radius:20px;}
+  table{width:100%;border-collapse:collapse;}
+  th,td{text-align:center;padding:0;}
+  thead th{font-size:11px;color:var(--muted);font-weight:800;padding:7px 0;border-bottom:1px solid var(--line);}
+  thead th.tarea{text-align:left;padding-left:12px;font-size:11px;}
+  tbody td.tarea{
+    text-align:left;padding:9px 6px 9px 12px;font-size:12.5px;font-weight:700;line-height:1.15;
+    border-bottom:1px solid var(--line);width:38%;
+  }
+  tbody td.tarea small{display:block;font-weight:800;color:var(--cian);font-size:11px;}
+  tbody td{border-bottom:1px solid var(--line);}
+  tbody tr:nth-child(even){background:rgba(255,255,255,.02);}
+  .cb{
+    width:27px;height:27px;border-radius:8px;border:2px solid #3d3669;background:rgba(13,11,31,.6);
+    margin:5px auto;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:.12s;font-size:15px;color:#0d0b1f;font-weight:900;
+  }
+  .cb.on{
+    background:linear-gradient(135deg,#22d3ee,#a855f7);border-color:#22d3ee;
+    box-shadow:0 0 12px rgba(34,211,238,.7);color:#0d0b1f;transform:scale(1.05);
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  .footer-info{
+    background:var(--card);border-radius:18px;padding:15px;font-size:13px;line-height:1.5;
+    border:1px solid var(--line);box-shadow:0 0 18px rgba(168,85,247,.1);
+  }
+  .footer-info .bonus{color:var(--morado);font-weight:900;text-shadow:0 0 10px rgba(168,85,247,.5);}
+  .footer-info .norma{color:#fb7185;font-weight:900;}
+  .footer-info .nota{color:var(--cian);font-weight:900;text-shadow:0 0 10px rgba(34,211,238,.5);}
+  .bonus-row{display:flex;align-items:center;gap:10px;margin-top:11px;padding-top:11px;border-top:1px solid var(--line);}
+  .bonus-row .cb{margin:0;}
+  .total-mes{
+    position:fixed;left:0;right:0;bottom:0;
+    background:linear-gradient(90deg,#4c1d95,#0e7490);color:#fff;
+    padding:14px 18px;display:flex;justify-content:space-between;align-items:center;
+    font-size:16px;font-weight:800;letter-spacing:.5px;
+    box-shadow:0 -4px 22px rgba(34,211,238,.4);z-index:20;
+    border-top:1px solid rgba(34,211,238,.5);
+  }
+  .total-mes .big{font-size:25px;font-weight:900;color:#fff;text-shadow:0 0 14px rgba(34,211,238,.8);}
+  .leyenda{font-size:11px;color:var(--muted);margin:2px 0 14px;text-align:center;}
+  .reset{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:4px 10px;font-size:12px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <span style="display:flex;align-items:center;gap:10px;">
+      <span class="pb"></span>
+      Tareas de Iker
+    </span>
+    <button id="btnInstalar" class="install-btn" onclick="instalar()">INSTALAR</button>
+  </div>
+  <div class="periodo">
+    <select id="mes"></select>
+    <select id="anio"></select>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="resumen">
+    <div class="stat"><div class="n" id="stDias">0</div><div class="l">Marcas</div></div>
+    <div class="stat rosa"><div class="n" id="stGanado">0 €</div><div class="l">Ganado</div></div>
+  </div>
+
+  <div id="semanas"></div>
+
+  <p class="leyenda">L · M · MI · J · V · S · D &nbsp;=&nbsp; Lunes a Domingo</p>
+
+  <div class="footer-info">
+    <div><span class="bonus">BONUS:</span> 10 € por cumplir todas las tareas todos los días del mes.</div>
+    <div style="margin-top:6px;"><span class="norma">NORMA:</span> Hacer las tareas ANTES de tumbarse en el sofá. Si no, no hay recompensa.</div>
+    <div style="margin-top:6px;"><span class="nota">NOTA:</span> Ninguna tarea se marca sin la comprobación de los padres en ese momento. Si una tarea se repite dos veces el mismo día, solo cuenta como una. </div>
+    <div class="bonus-row">
+      <div class="cb" id="cbBonus" onclick="toggleBonus()"></div>
+      <div>Conceder el <b>bonus de 10 €</b> este mes</div>
+    </div>
+  </div>
+</div>
+
+<div class="total-mes">
+  <span>TOTAL DEL MES</span>
+  <span class="big" id="totalMes">0 €</span>
+</div>
+
+<script>
+  const TAREAS = [
+    { t:"Higiene (ducharse)", v:0.5 },
+    { t:"Recoger habitación", v:0.5 },
+    { t:"Ir a pádel", v:1 },
+    { t:"Volver de pádel a casa", v:1.5 },
+    { t:"Clases de dibujo", v:1 },
+    { t:"Tirar la basura", v:0.25 },
+    { t:"Echarme desodorante", v:0.25 },
+    { t:"Lavarme los dientes", v:0.25 },
+  ];
+  const DIAS = ["L","M","MI","J","V","S","D"];
+  const SEMANAS = 4;
+  const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  const STORE = "actos_iker";
+
+  let data = JSON.parse(localStorage.getItem(STORE) || "{}");
+  const hoy = new Date();
+  let mesSel = hoy.getMonth();
+  let anioSel = hoy.getFullYear();
+
+  function clave(){ return anioSel + "-" + mesSel; }
+  function getMes(){
+    const k = clave();
+    if(!data[k]) data[k] = { marks:{}, bonus:false };
+    return data[k];
+  }
+  function guardar(){ localStorage.setItem(STORE, JSON.stringify(data)); }
+
+  function eur(n){
+    return (Math.round(n*100)/100).toString().replace(".",",") + " €";
+  }
+
+  // selectores
+  const selMes = document.getElementById("mes");
+  const selAnio = document.getElementById("anio");
+  MESES.forEach((m,i)=>{ const o=document.createElement("option"); o.value=i; o.textContent=m; selMes.appendChild(o); });
+  for(let a=hoy.getFullYear()-1; a<=hoy.getFullYear()+1; a++){ const o=document.createElement("option"); o.value=a; o.textContent=a; selAnio.appendChild(o); }
+  selMes.value = mesSel; selAnio.value = anioSel;
+  selMes.onchange = ()=>{ mesSel=+selMes.value; render(); };
+  selAnio.onchange = ()=>{ anioSel=+selAnio.value; render(); };
+
+  function toggle(s, ti, di){
+    const m = getMes();
+    const key = s+"_"+ti+"_"+di;
+    m.marks[key] = !m.marks[key];
+    guardar();
+    render();
+  }
+  function toggleBonus(){
+    const m = getMes();
+    m.bonus = !m.bonus;
+    guardar();
+    render();
+  }
+
+  function render(){
+    const m = getMes();
+    const cont = document.getElementById("semanas");
+    cont.innerHTML = "";
+    let totalMes = 0, marcas = 0;
+
+    for(let s=1; s<=SEMANAS; s++){
+      let totSem = 0;
+      const div = document.createElement("div");
+      div.className = "semana";
+
+      let html = '<h2><span>SEMANA '+s+'</span><span class="tot" id="ts'+s+'"></span></h2>';
+      html += '<table><thead><tr><th class="tarea">Tarea</th>';
+      DIAS.forEach(d=> html += '<th>'+d+'</th>');
+      html += '</tr></thead><tbody>';
+
+      TAREAS.forEach((tk,ti)=>{
+        html += '<tr><td class="tarea">'+tk.t+'<small>'+eur(tk.v)+'</small></td>';
+        for(let di=0; di<7; di++){
+          const key = s+"_"+ti+"_"+di;
+          const on = m.marks[key];
+          if(on){ totSem += tk.v; totalMes += tk.v; marcas++; }
+          html += '<td><div class="cb'+(on?' on':'')+'" onclick="toggle('+s+','+ti+','+di+')">'+(on?'✓':'')+'</div></td>';
+        }
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      div.innerHTML = html;
+      cont.appendChild(div);
+      div.querySelector("#ts"+s).textContent = eur(totSem);
+    }
+
+    // bonus
+    const cbB = document.getElementById("cbBonus");
+    if(m.bonus){ cbB.classList.add("on"); cbB.textContent="✓"; totalMes += 10; }
+    else { cbB.classList.remove("on"); cbB.textContent=""; }
+
+    document.getElementById("stDias").textContent = marcas;
+    document.getElementById("stGanado").textContent = eur(totalMes - (m.bonus?10:0));
+    document.getElementById("totalMes").textContent = eur(totalMes);
+  }
+
+  render();
+
+  // ---- PWA: instalación ----
+  let deferredPrompt = null;
+  const btn = document.getElementById("btnInstalar");
+
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+    btn.style.display = "none";
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    btn.style.display = "";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    btn.style.display = "none";
+    deferredPrompt = null;
+  });
+
+  async function instalar(){
+    if (deferredPrompt){
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      return;
+    }
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (ios){
+      alert("Para instalar en iPhone:\n1. Pulsa el botón Compartir (cuadro con flecha hacia arriba).\n2. Elige 'Añadir a pantalla de inicio'.");
+    } else {
+      alert("Para instalar:\nAbre el menú del navegador (⋮) y elige 'Instalar aplicación' o 'Añadir a pantalla de inicio'.");
+    }
+  }
+  window.instalar = instalar;
+
+  if ("serviceWorker" in navigator){
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(()=>{});
+    });
+  }
+</script>
+</body>
+</html>
