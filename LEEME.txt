@@ -1,0 +1,32 @@
+# Tareas de Iker — Cómo instalar la app (PWA)
+
+Esta carpeta contiene la aplicación lista para subir a un servidor con HTTPS.
+La forma más fácil y gratis es **GitHub Pages**.
+
+## Archivos
+- index.html  (la app)
+- manifest.json
+- sw.js  (service worker)
+- icon-192.png / icon-512.png
+
+> Importante: estos 5 archivos deben estar JUNTOS en la misma carpeta del servidor.
+
+## Subir a GitHub Pages (gratis)
+1. Crea una cuenta en https://github.com (si no tienes).
+2. Pulsa en "New repository". Ponle un nombre, por ejemplo `tareas-iker`.
+   Marca "Public" y créalo.
+3. Entra en el repositorio → "Add file" → "Upload files".
+   Arrastra los 5 archivos (index.html, manifest.json, sw.js, icon-192.png, icon-512.png).
+   Pulsa "Commit changes".
+4. Ve a "Settings" → "Pages".
+   En "Branch" elige `main` y carpeta `/ (root)`. Guarda.
+5. Espera 1-2 minutos. Te dará una dirección tipo:
+   https://TU-USUARIO.github.io/tareas-iker/
+6. Abre esa dirección en el móvil con Chrome.
+   Aparecerá el botón "⤓ Instalar" arriba a la derecha (o usa el menú ⋮ →
+   "Instalar aplicación"). Listo: queda como una app en la pantalla de inicio.
+
+## Notas
+- El botón de instalación SOLO funciona por https:// (GitHub Pages lo da gratis).
+- Si lo abres con file:// el botón mostrará instrucciones manuales.
+- Los datos (marcas de cada mes) se guardan en el propio móvil.
